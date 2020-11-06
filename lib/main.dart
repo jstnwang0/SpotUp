@@ -1,47 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:spot_up/pages/home_page.dart';
 
-void main() => runApp(MaterialApp(home: Home()));
+void main() => runApp(MyApp());
 
-class Home extends StatelessWidget {
+class MyApp extends StatelessWidget {
+  static final String title = 'Spot Up';
+
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Spot Up',
-          style: TextStyle(
-            fontFamily: 'Manrope',
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.deepPurple,
-        elevation: 1,
-      ),
-      body: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Text('Hello World'),
-          RaisedButton(
-              onPressed: () {},
-              child: Text(
-                'Raised Button',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: 'Manrope',
-                ),
-              ),
-              color: Colors.deepPurple)
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        backgroundColor: Colors.deepPurple,
-        child: Icon(
-          Icons.add_location,
-          size: 30,
-        ),
-      ),
-    );
-  }
+  Widget build(BuildContext context) => MaterialApp(
+        title: title,
+        theme: ThemeData(primaryColor: Colors.white),
+        home: HomePage(),
+      );
 }
