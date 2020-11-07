@@ -26,36 +26,45 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: brandcolor,
         ),
         body: SlidingUpPanel(
-          panel: Center(
-            child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 50.0),
-              height: 5.0,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: <Widget>[
-                  Container(
-                    width: 160.0,
-                    color: Colors.red,
-                  ),
-                  Container(
-                    width: 160.0,
-                    color: Colors.blue,
-                  ),
-                  Container(
-                    width: 160.0,
-                    color: Colors.green,
-                  ),
-                  Container(
-                    width: 160.0,
-                    color: Colors.yellow,
-                  ),
-                  Container(
-                    width: 160.0,
-                    color: Colors.orange,
-                  ),
-                ],
+          panel: Column(
+            // Change to better wrapper
+            children: [
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 50.0),
+                height: 50.0,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: <Widget>[
+                    Container(
+                      width: 160.0,
+                      // color: Colors.red,
+                      decoration: BoxDecoration(
+                          color: Colors.orange,
+                          shape: BoxShape.rectangle,
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(25.0),
+                              bottomRight: Radius.circular(25.0))),
+                    ),
+                    Container(
+                      width: 160.0,
+                      color: Colors.blue,
+                    ),
+                    Container(
+                      width: 160.0,
+                      color: Colors.green,
+                    ),
+                    Container(
+                      width: 160.0,
+                      color: Colors.yellow,
+                    ),
+                    Container(
+                      width: 160.0,
+                      color: Colors.orange,
+                    ),
+                  ],
+                ),
               ),
-            ),
+            ],
           ),
           body: MapSample(),
           borderRadius: BorderRadius.circular(30),
