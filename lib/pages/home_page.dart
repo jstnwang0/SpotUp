@@ -30,40 +30,7 @@ class _HomePageState extends State<HomePage> {
             // Change to better wrapper
             children: [
               buildDragIcon(),
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
-                height: 40.0,
-                child: ListView(
-                  children: <Widget>[
-                    Container(
-                        height: 40,
-                        child: ListView(
-                          scrollDirection: Axis.horizontal,
-                          children: [
-                            'Secluded Areas',
-                            'study spots',
-                            'fitness',
-                            'swimming idfk',
-                          ]
-                              .map((e) => Container(
-                                  child: RaisedButton(
-                                    onPressed: () {},
-                                    child: Text(
-                                      e,
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(30.0)),
-                                    color: Colors.deepPurple,
-                                  ),
-                                  margin: EdgeInsets.symmetric(
-                                      vertical: 2.0, horizontal: 6.0)))
-                              .toList(),
-                        ))
-                  ],
-                ),
-              ),
+              buildScrollingMenu(),
             ],
           ),
           body: MapSample(),
@@ -79,4 +46,38 @@ class _HomePageState extends State<HomePage> {
       width: 50,
       height: 8,
       margin: EdgeInsets.symmetric(vertical: 6.0));
+
+  Widget buildScrollingMenu() => Container(
+        margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
+        height: 40.0,
+        child: ListView(
+          children: <Widget>[
+            Container(
+                height: 40,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    'Secluded Areas',
+                    'study spots',
+                    'fitness',
+                    'swimming idfk',
+                  ]
+                      .map((e) => Container(
+                          child: RaisedButton(
+                            onPressed: () {},
+                            child: Text(
+                              e,
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30.0)),
+                            color: Colors.deepPurple,
+                          ),
+                          margin: EdgeInsets.symmetric(
+                              vertical: 2.0, horizontal: 6.0)))
+                      .toList(),
+                ))
+          ],
+        ),
+      );
 }
