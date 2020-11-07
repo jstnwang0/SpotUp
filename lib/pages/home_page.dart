@@ -29,38 +29,38 @@ class _HomePageState extends State<HomePage> {
           panel: Column(
             // Change to better wrapper
             children: [
+              buildDragIcon(),
               Container(
-                margin: EdgeInsets.symmetric(vertical: 50.0),
-                height: 50.0,
+                margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
+                height: 40.0,
                 child: ListView(
-                  scrollDirection: Axis.horizontal,
                   children: <Widget>[
                     Container(
-                      width: 160.0,
-                      // color: Colors.red,
-                      decoration: BoxDecoration(
-                          color: Colors.orange,
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(25.0),
-                              bottomRight: Radius.circular(25.0))),
-                    ),
-                    Container(
-                      width: 160.0,
-                      color: Colors.blue,
-                    ),
-                    Container(
-                      width: 160.0,
-                      color: Colors.green,
-                    ),
-                    Container(
-                      width: 160.0,
-                      color: Colors.yellow,
-                    ),
-                    Container(
-                      width: 160.0,
-                      color: Colors.orange,
-                    ),
+                        height: 40,
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          children: [
+                            'Secluded Areas',
+                            'study spots',
+                            'fitness',
+                            'swimming idfk',
+                          ]
+                              .map((e) => Container(
+                                  child: RaisedButton(
+                                    onPressed: () {},
+                                    child: Text(
+                                      e,
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(30.0)),
+                                    color: Colors.deepPurple,
+                                  ),
+                                  margin: EdgeInsets.symmetric(
+                                      vertical: 2.0, horizontal: 6.0)))
+                              .toList(),
+                        ))
                   ],
                 ),
               ),
@@ -70,4 +70,13 @@ class _HomePageState extends State<HomePage> {
           borderRadius: BorderRadius.circular(30),
         ),
       );
+
+  Widget buildDragIcon() => Container(
+      decoration: BoxDecoration(
+        color: Colors.black.withOpacity(0.3),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      width: 50,
+      height: 8,
+      margin: EdgeInsets.symmetric(vertical: 6.0));
 }
