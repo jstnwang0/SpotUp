@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:spot_up/widgets/gmap.dart';
 import '../main.dart';
-import 'package:spot_up/widgets/main_image_widget.dart';
 import 'package:spot_up/widgets/tab_widget.dart';
 
 class HomePage extends StatefulWidget {
