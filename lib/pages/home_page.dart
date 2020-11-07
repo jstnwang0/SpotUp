@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:spot_up/widgets/gmap.dart';
 import '../main.dart';
-import 'package:spot_up/widgets/tab_widget.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -10,7 +9,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final panelController = PanelController();
   final double tabBarHeight = 40;
   final brandcolor = Colors.deepPurple;
 
@@ -28,62 +26,39 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: brandcolor,
         ),
         body: SlidingUpPanel(
-          minHeight: 150,
-          controller: panelController,
-          maxHeight: MediaQuery.of(context).size.height - tabBarHeight,
-          panelBuilder: (scrollController) => buildSlidingPanel(
-            scrollController: scrollController,
-            panelController: panelController,
-          ),
-          body: MapSample(),
-        ),
-      );
-
-  Widget buildSlidingPanel({
-    @required PanelController panelController,
-    @required ScrollController scrollController,
-  }) =>
-      DefaultTabController(
-        length: 2,
-        child: Scaffold(
-          appBar: buildTabBar(
-            onClicked: panelController.open,
-          ),
-          body: TabBarView(
-            children: [
-              TabWidget(scrollController: scrollController),
-              TabWidget(scrollController: scrollController),
-            ],
-          ),
-        ),
-      );
-
-  Widget buildTabBar({
-    @required VoidCallback onClicked,
-  }) =>
-      PreferredSize(
-        preferredSize: Size.fromHeight(tabBarHeight - 8),
-        child: GestureDetector(
-          onTap: onClicked,
-          child: AppBar(
-            title: buildDragIcon(), // Icon(Icons.drag_handle),
-            centerTitle: true,
-            bottom: TabBar(
-              tabs: [
-                Tab(child: Text('Secluded')),
-                Tab(child: Text('Fitness')),
-              ],
+          panel: Center(
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 50.0),
+              height: 5.0,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: <Widget>[
+                  Container(
+                    width: 160.0,
+                    color: Colors.red,
+                  ),
+                  Container(
+                    width: 160.0,
+                    color: Colors.blue,
+                  ),
+                  Container(
+                    width: 160.0,
+                    color: Colors.green,
+                  ),
+                  Container(
+                    width: 160.0,
+                    color: Colors.yellow,
+                  ),
+                  Container(
+                    width: 160.0,
+                    color: Colors.orange,
+                  ),
+                ],
+              ),
             ),
           ),
+          body: MapSample(),
+          borderRadius: BorderRadius.circular(30),
         ),
-      );
-
-  Widget buildDragIcon() => Container(
-        decoration: BoxDecoration(
-          color: brandcolor,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        width: 60,
-        height: 8,
       );
 }
