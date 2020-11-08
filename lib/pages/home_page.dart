@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:spot_up/widgets/gmap.dart';
+import 'side_nav.dart';
 import '../main.dart';
 
 class HomePage extends StatefulWidget {
@@ -25,6 +26,8 @@ class _HomePageState extends State<HomePage> {
           elevation: 0,
           backgroundColor: brandcolor,
         ),
+        //this is the sliding panel
+        drawer: SideNav(),
         body: SlidingUpPanel(
           panel: Column(
             // Change to better wrapper

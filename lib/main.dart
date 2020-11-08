@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spot_up/pages/home_page.dart';
+import 'package:spot_up/pages/side_nav.dart';
 
 void main() => runApp(MyApp());
 
@@ -8,8 +9,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: title,
         theme: ThemeData(primaryColor: Colors.white),
-        home: HomePage(),
+        home: Scaffold(
+          body: HomePage(),
+        ),
       );
 }
