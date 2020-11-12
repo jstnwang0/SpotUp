@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
               buildScrollingMenu(),
             ],
           ),
-          body: MapSample(),
+          body: Map(),
           borderRadius: BorderRadius.circular(30),
         ),
       );
