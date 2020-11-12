@@ -43,7 +43,7 @@
 	<false/>
 	<key>io.flutter.embedded_views_preview</key>
 	<string>YES</string>
-	<key>NSLocationWhenInUsageDescription</key>
+	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Allow location access</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Allow location access</string>
