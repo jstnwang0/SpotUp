@@ -26,11 +26,27 @@ class MapState extends State<Map> {
   void _currentLocation() async {
     LocationData currentLocation;
     var location = new Location();
-    try {
-      currentLocation = await location.getLocation();
-    } on Exception {
-      currentLocation = null;
+
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
+
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return;
+      }
     }
+
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+
+    currentLocation = await location.getLocation();
 
     _mapController.animateCamera(CameraUpdate.newCameraPosition(
       CameraPosition(
@@ -45,13 +61,6 @@ class MapState extends State<Map> {
     _mapController = _controller;
     setState(() {});
     _setMapStyle();
-    // _location.onLocationChanged.listen((l) {
-    //   _mapController.animateCamera(
-    //     CameraUpdate.newCameraPosition(
-    //       CameraPosition(target: LatLng(l.latitude, l.longitude), zoom: 15),
-    //     ),
-    //   );
-    // });
   }
 
   @override
