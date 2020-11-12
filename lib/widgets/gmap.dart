@@ -10,12 +10,13 @@ class Map extends StatefulWidget {
 }
 
 class MapState extends State<Map> {
+  bool locationEnabled = false;
+  GoogleMapController _mapController;
+
   static final CameraPosition _ucb = CameraPosition(
     target: LatLng(37.871900, -122.258540),
     zoom: 15,
   );
-
-  GoogleMapController _mapController;
 
   void _setMapStyle() async {
     String style = await DefaultAssetBundle.of(context)
@@ -27,8 +28,24 @@ class MapState extends State<Map> {
     LocationData currentLocation;
     var location = new Location();
 
+    currentLocation = await location.getLocation();
+    _mapController.animateCamera(CameraUpdate.newCameraPosition(
+      CameraPosition(
+        bearing: 0,
+        target: LatLng(currentLocation.latitude, currentLocation.longitude),
+        zoom: 16.0,
+      ),
+    ));
+  }
+
+  void _onMapCreated(GoogleMapController _controller) async {
+    _mapController = _controller;
+    setState(() {});
+    _setMapStyle();
+
     bool _serviceEnabled;
     PermissionStatus _permissionGranted;
+    var location = new Location();
 
     _serviceEnabled = await location.serviceEnabled();
     if (!_serviceEnabled) {
@@ -46,21 +63,10 @@ class MapState extends State<Map> {
       }
     }
 
-    currentLocation = await location.getLocation();
-
-    _mapController.animateCamera(CameraUpdate.newCameraPosition(
-      CameraPosition(
-        bearing: 0,
-        target: LatLng(currentLocation.latitude, currentLocation.longitude),
-        zoom: 15.0,
-      ),
-    ));
-  }
-
-  void _onMapCreated(GoogleMapController _controller) {
-    _mapController = _controller;
-    setState(() {});
-    _setMapStyle();
+    setState(() {
+      locationEnabled = true;
+    });
+    _currentLocation();
   }
 
   @override
@@ -71,7 +77,7 @@ class MapState extends State<Map> {
         onMapCreated: _onMapCreated,
         myLocationButtonEnabled: false,
         zoomControlsEnabled: false,
-        myLocationEnabled: true,
+        myLocationEnabled: locationEnabled,
         padding: EdgeInsets.only(bottom: 175, top: 0, right: 0, left: 0),
       ),
       floatingActionButton: FloatingActionButton(
