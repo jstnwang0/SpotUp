@@ -3,6 +3,7 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:spot_up/widgets/gmap.dart';
 import 'side_nav.dart';
 import '../main.dart';
+import 'dart:convert';
 
 class HomePage extends StatefulWidget {
   @override
@@ -26,14 +27,26 @@ class _HomePageState extends State<HomePage> {
           elevation: 0,
           backgroundColor: brandcolor,
         ),
-        //this is the sliding panel
+        //this is the left sidesliding panel
         drawer: SideNav(),
         body: SlidingUpPanel(
           panel: Column(
-            // Change to better wrapper
             children: [
               buildDragIcon(),
-              buildScrollingMenu(),
+              //This is where I start editting the search bar
+              AppBar(
+                title: Text("Search"),
+                actions: <Widget>[
+                  IconButton(
+                      icon: Icon(Icons.search),
+                      onPressed: () {
+                        showSearch(
+                          context: context,
+                          delegate: DataSearch(),
+                        );
+                      })
+                ],
+              ),
             ],
           ),
           body: MapSample(),
@@ -83,4 +96,83 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       );
+}
+
+class DataSearch extends SearchDelegate<String> {
+  final categories = [
+    "Fitness",
+    "Secluded Areas",
+    "Smoke Spots",
+    "Instagram",
+    "Study Spots",
+    "Eating Spots",
+    "Restrooms",
+  ];
+
+  final recentCategories = [
+    "Secluded Areas",
+    "Smoke Spots",
+    "Instagram",
+  ];
+
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    // actions for app bar
+    return [
+      IconButton(
+          icon: Icon(Icons.clear),
+          onPressed: () {
+            query = '';
+          })
+    ];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    // leading icon on the left of the app bar'
+    return IconButton(
+        icon: AnimatedIcon(
+          icon: AnimatedIcons.menu_arrow,
+          progress: transitionAnimation,
+        ),
+        onPressed: () {
+          close(context, null);
+        });
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    // show some results based on the selection
+    return Card(
+        color: Colors.deepPurple,
+        shape: StadiumBorder(),
+        child: Center(
+          child: Text(query),
+        ));
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    // show when someone searches for for something
+    final suggestionList = query.isEmpty
+        ? recentCategories
+        : categories.where((p) => p.startsWith(query)).toList();
+    return ListView.builder(
+      itemBuilder: (context, index) => ListTile(
+        leading: Icon(Icons.location_city),
+        title: RichText(
+          text: TextSpan(
+              text: suggestionList[index].substring(0, query.length),
+              style:
+                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+              children: [
+                TextSpan(
+                    text: suggestionList[index].substring(query.length),
+                    style: TextStyle(color: Colors.grey))
+              ]),
+        ),
+      ),
+      itemCount: suggestionList.length,
+    );
+  }
 }
