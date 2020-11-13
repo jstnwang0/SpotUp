@@ -61,6 +61,10 @@ class MapState extends State<Map> {
       if (_permissionGranted != PermissionStatus.granted) {
         return;
       }
+
+      location.onLocationChanged.listen((LocationData currentLocation) {
+        setState(() {});
+      });
     }
 
     setState(() {
