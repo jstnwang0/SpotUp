@@ -16,6 +16,7 @@ class MapState extends State<Map> {
   static final CameraPosition _ucb = CameraPosition(
     target: LatLng(37.871900, -122.258540),
     zoom: 15,
+    tilt: 20.0,
   );
 
   void _setMapStyle() async {
@@ -31,10 +32,10 @@ class MapState extends State<Map> {
     currentLocation = await location.getLocation();
     _mapController.animateCamera(CameraUpdate.newCameraPosition(
       CameraPosition(
-        bearing: 0,
-        target: LatLng(currentLocation.latitude, currentLocation.longitude),
-        zoom: 16.0,
-      ),
+          bearing: 0,
+          target: LatLng(currentLocation.latitude, currentLocation.longitude),
+          zoom: 16.0,
+          tilt: 20.0),
     ));
   }
 
@@ -79,18 +80,11 @@ class MapState extends State<Map> {
       body: GoogleMap(
         initialCameraPosition: _ucb,
         onMapCreated: _onMapCreated,
-        myLocationButtonEnabled: false,
+        myLocationButtonEnabled: true,
         zoomControlsEnabled: false,
         myLocationEnabled: locationEnabled,
         padding: EdgeInsets.only(bottom: 175, top: 0, right: 0, left: 0),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _currentLocation,
-        child: Icon(Icons.near_me),
-        mini: true,
-        backgroundColor: Colors.deepPurple,
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
     );
   }
 }
