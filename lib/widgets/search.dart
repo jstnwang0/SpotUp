@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flappy_search_bar/flappy_search_bar.dart';
 import 'package:flappy_search_bar/scaled_tile.dart';
 import 'package:flappy_search_bar/search_bar_style.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter/material.dart';
 
 class Search extends StatefulWidget {
@@ -12,6 +13,14 @@ class Search extends StatefulWidget {
 
 class SearchState extends State<Search> {
   final SearchBarController<Post> _searchBarController = SearchBarController();
+  final List<Post> posts = [
+    Post('Workout', 'TestBody'),
+    Post('Sports', 'TestBody1'),
+    Post('Secluded Areas', 'TestBody2'),
+    Post('Picture', 'TestBody3')
+  ];
+
+  final crossAxisCount = 3;
 
   @override
   Widget build(BuildContext context) {
@@ -32,54 +41,60 @@ class SearchState extends State<Search> {
         fontFamily: 'Manrope',
         fontWeight: FontWeight.bold,
       ),
-      onSearch: _getAllPosts,
+      onSearch: _searchPosts,
       minimumChars: 1,
       searchBarController: _searchBarController,
-      placeHolder: null,
-      header: null,
+      placeHolder: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        child: StaggeredGridView.countBuilder(
+          crossAxisCount: crossAxisCount,
+          itemCount: posts.length,
+          staggeredTileBuilder: (int index) => ScaledTile.fit(1),
+          itemBuilder: (BuildContext context, int index) {
+            return onItemFound(posts[index], index);
+          },
+        ),
+      ),
       cancellationWidget: Text("Cancel"),
-      // indexedScaledTileBuilder: (int index) =>
-      //     ScaledTile.count(1, index.isEven ? 2 : 1),
       onCancelled: () {
         print("Cancelled triggered");
       },
-      mainAxisSpacing: 0,
-      crossAxisSpacing: 0,
-      crossAxisCount: 3,
-      onItemFound: (Post post, int index) {
-        return Container(
-          height: 100,
-          width: 100,
-          margin: EdgeInsets.all(10),
-          decoration: BoxDecoration(
-              color: Colors.lightBlue,
-              border: Border.all(color: Colors.lightBlue),
-              borderRadius: BorderRadius.all(Radius.circular(20))),
-          child: ListTile(
-            title: Center(
-                child: Text(
-              post.title,
-              style: TextStyle(
-                fontFamily: 'Manrope',
-                fontWeight: FontWeight.bold,
-              ),
-            )),
-            onTap: () {},
-          ),
-        );
-      },
+      crossAxisCount: crossAxisCount,
+      onItemFound: onItemFound,
     );
   }
 
-  Future<List<Post>> _getAllPosts(String text) async {
-    List<Post> posts = [
-      Post('Workout', 'TestBody'),
-      Post('Sports', 'TestBody1'),
-      Post('Secluded Areas', 'TestBody2'),
-      Post('Picture', 'TestBody3')
-    ];
+  Future<List<Post>> _searchPosts(String text) async {
+    List<Post> searched = [];
+    for (Post post in posts) {
+      if (post.title.toLowerCase().contains(text.toLowerCase())) {
+        searched.add(post);
+      }
+    }
+    return searched;
+  }
 
-    return posts;
+  Widget onItemFound(Post post, int index) {
+    return Container(
+      height: 100,
+      width: 100,
+      margin: EdgeInsets.all(10),
+      decoration: BoxDecoration(
+          color: Colors.lightBlue,
+          border: Border.all(color: Colors.lightBlue),
+          borderRadius: BorderRadius.all(Radius.circular(20))),
+      child: ListTile(
+        title: Center(
+            child: Text(
+          post.title,
+          style: TextStyle(
+            fontFamily: 'Manrope',
+            fontWeight: FontWeight.bold,
+          ),
+        )),
+        onTap: () {},
+      ),
+    );
   }
 }
 
