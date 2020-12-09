@@ -20,8 +20,7 @@ class MapState extends State<Map> {
   );
 
   void _setMapStyle() async {
-    String style = await DefaultAssetBundle.of(context)
-        .loadString('assets/map_style.json');
+    String style = await DefaultAssetBundle.of(context).loadString('assets/map_style.json');
     _mapController.setMapStyle(style);
   }
 
@@ -83,7 +82,7 @@ class MapState extends State<Map> {
         myLocationButtonEnabled: true,
         zoomControlsEnabled: false,
         myLocationEnabled: locationEnabled,
-        padding: EdgeInsets.only(bottom: 175, top: 0, right: 0, left: 0),
+        padding: EdgeInsets.only(bottom: 80, top: 0, right: 0, left: 0),
       ),
     );
   }

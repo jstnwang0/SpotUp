@@ -26,7 +26,10 @@ dependencies:
   google_maps_flutter: ^0.5.33
   location: ^3.0.2
   sliding_up_panel: ^1.0.2
-  flappy_search_bar: ^1.7.2
+  flappy_search_bar:
+     git:
+       url: https://github.com/jstnwang0/flappy_search_bar.git
+       ref: master
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
