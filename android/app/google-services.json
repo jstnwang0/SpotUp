@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "424594222984",
+    "firebase_url": "https://spotup-cbb90.firebaseio.com",
+    "project_id": "spotup-cbb90",
+    "storage_bucket": "spotup-cbb90.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:424594222984:android:3c05e08c8e137261ca943d",
+        "android_client_info": {
+          "package_name": "com.SpotUp.SpotUp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "424594222984-aa8k5rv50m0mdbg5ih4s65s27jjve1kb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARixE2iMvp3xMv5v75gfYoZRuNRc2jAH0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "424594222984-aa8k5rv50m0mdbg5ih4s65s27jjve1kb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
