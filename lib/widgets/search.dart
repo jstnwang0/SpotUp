@@ -5,6 +5,8 @@ import 'package:flappy_search_bar/scaled_tile.dart';
 import 'package:flappy_search_bar/search_bar_style.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter/material.dart';
+import 'package:spot_up/services/database.dart';
+import 'package:spot_up/models/post.dart';
 
 class Search extends StatefulWidget {
   final Function closePanel;
@@ -19,29 +21,29 @@ class Search extends StatefulWidget {
 class SearchState extends State<Search> {
   final SearchBarController<Post> _searchBarController = SearchBarController();
   final List<Post> categories = [
-    Post('Picture', 'Picture', null),
-    Post('Scenic', 'Scenic', null),
-    Post('Eating', 'Eating', null),
-    Post('Study', 'Study', null),
-    Post('Restrooms', 'Restrooms', null),
-    Post('Secluded Areas', 'Secluded_Areas', null),
-    Post('Sports', 'Sports', null),
-    Post('Workout', 'Workout', null),
+    Post('Picture', ['picture'], []),
+    Post('Scenic', ['scenic'], []),
+    Post('Eating', ['eating'], []),
+    Post('Study', ['study'], []),
+    Post('Restrooms', ['restrooms'], []),
+    Post('Secluded Areas', ['secluded_areas'], []),
+    Post('Sports', ['sports'], []),
+    Post('Workout', ['workout'], []),
   ];
 
   final List<Post> subcategories = [
-    Post('Run Loops', 'Workout', 'Run_Loops'),
-    Post('Tennis', 'Sports', 'Tennis'),
-    Post('Football', 'Sports', 'Football'),
-    Post('Basketball', 'Sports', 'Basketball'),
-    Post('Soccer', 'Sports', 'Soccer'),
-    Post('Track', 'Sports', 'Track'),
-    Post('Spikeball', 'Sports', 'Spikeball'),
-    Post('Weed', 'Secluded_Areas', 'Weed'),
-    Post('Drinking', 'Secluded_Areas', 'Drinking'),
+    Post('Run Loops', ['workout'], ['run_loops']),
+    Post('Tennis', ['sports'], ['tennis']),
+    Post('Football', ['sports'], ['football']),
+    Post('Basketball', ['sports'], ['basketball']),
+    Post('Soccer', ['sports'], ['soccer']),
+    Post('Track', ['sports'], ['track']),
+    Post('Spikeball', ['sports'], ['spikeball']),
+    Post('Weed', ['secluded_areas'], ['weed']),
+    Post('Drinking', ['secluded_areas'], ['drinking']),
   ];
 
-  final List<Post> spots = [Post('Memorial Glade', 'Sports', 'Spikeball')];
+  final List<Post> spots = DatabaseService().getSpots().where((spot) => spot.active).toList();
 
   List<Post> _defaultList = new List();
   List<Post> _fulllist = new List();
@@ -50,12 +52,12 @@ class SearchState extends State<Search> {
   @override
   void initState() {
     _fulllist = categories + subcategories;
-    _fulllist.sort((a, b) => a.category.compareTo(b.category));
+    _fulllist.sort((a, b) => a.category[0].compareTo(b.category[0]));
     spots.sort((a, b) => a.title.compareTo(b.title));
     _fulllist += spots;
 
     _defaultList = categories + subcategories;
-    _defaultList.sort((a, b) => a.category.compareTo(b.category));
+    _defaultList.sort((a, b) => a.category[0].compareTo(b.category[0]));
 
     setState(() {
       isLoaded = true;
@@ -155,56 +157,31 @@ class SearchState extends State<Search> {
     for (int i = 0; i < searched.length; i++) {
       Post post = searched[i];
 
-      bool hasTag = tags.isEmpty ? true : false;
+      bool hasTag = true;
 
       for (String tag in tags) {
-        if ((((post.category != null) ? post.category.toLowerCase() == tag : false) ||
-                ((post.subcategory != null) ? post.subcategory.toLowerCase() == tag : false)) &&
-            post.title.replaceAll(new RegExp(' '), '_').toLowerCase() != tag) {
-          hasTag = true;
+        if (!((post.category.contains(tag) || post.subcategory.contains(tag)) &&
+            post.title.replaceAll(new RegExp(' '), '_').toLowerCase() != tag)) {
+          hasTag = false;
           break;
         }
       }
 
       bool hasWord = searchWords.isEmpty ? true : false;
-      if (hasTag) {
+      if (hasTag && !hasWord) {
         for (String word in searchWords) {
           if (post.title.toLowerCase().contains(word.toLowerCase())) {
             hasWord = true;
             break;
           }
         }
-        if (!hasWord) {
-          searched.removeAt(i);
-          i--;
-        }
-      } else {
+      }
+      if (!(hasTag && hasWord)) {
         searched.removeAt(i);
         i--;
       }
     }
 
     return searched;
-  }
-}
-
-class Post {
-  final String title;
-  final String category;
-  final String subcategory;
-
-  Post(this.title, this.category, this.subcategory);
-
-  bool isCategory() {
-    return title.replaceAll(new RegExp(' '), '_') == category;
-  }
-
-  bool isSubcategory() {
-    return title.replaceAll(new RegExp(' '), '_') == subcategory;
-  }
-
-  bool isSpot() {
-    return title.replaceAll(new RegExp(' '), '_') != subcategory &&
-        title.replaceAll(new RegExp(' '), '_') != category;
   }
 }

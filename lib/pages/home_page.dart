@@ -8,13 +8,14 @@ import 'dart:convert';
 
 class HomePage extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _HomePageState createState() {
+    return _HomePageState();
+  }
 }
 
 class _HomePageState extends State<HomePage> {
   final double tabBarHeight = 40;
   final brandcolor = Colors.deepPurple;
-
   final PanelController _panelController = PanelController();
 
   @override
