@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:spot_up/models/post.dart';
-import 'package:spot_up/pages/home_page.dart';
+import 'package:spot_up/models/user.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:spot_up/services/database.dart';
+import 'package:spot_up/pages/wrapper.dart';
+import 'package:spot_up/services/auth.dart';
+import 'package:spot_up/services/spot_database.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
@@ -16,21 +19,20 @@ void main() async {
   Hive.registerAdapter(PostAdapter());
 
   await Hive.openBox('box');
-  await DatabaseService().updateData();
+  await SpotDatabase().updateData();
 
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   static final String title = 'Spot Up';
+  static final brandcolor = Colors.deepPurple;
 
   @override
   Widget build(BuildContext context) => MaterialApp(
         debugShowCheckedModeBanner: false,
         title: title,
         theme: ThemeData(primaryColor: Colors.white),
-        home: Scaffold(
-          body: HomePage(),
-        ),
+        home: Wrapper(),
       );
 }

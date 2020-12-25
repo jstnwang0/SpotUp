@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>424594222984-k9oqe9p3hpe515hseep8qde9q0h2h0di.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.424594222984-k9oqe9p3hpe515hseep8qde9q0h2h0di</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDyZOdsE4HqMjGe6BTf--OzeBvDOCt-ejA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>424594222984</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.SpotUp.SpotUpApp</string>
+	<key>PROJECT_ID</key>
+	<string>spotup-cbb90</string>
+	<key>STORAGE_BUCKET</key>
+	<string>spotup-cbb90.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:424594222984:ios:c83e392eefd46036ca943d</string>
+	<key>DATABASE_URL</key>
+	<string>https://spotup-cbb90.firebaseio.com</string>
+</dict>
+</plist>

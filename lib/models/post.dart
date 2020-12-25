@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
 
@@ -20,7 +21,20 @@ class Post {
   @HiveField(4)
   final String id;
 
-  Post(this.title, this.category, this.subcategory, [this.id, this.active = true]);
+  @HiveField(5)
+  final double latitude;
+
+  @HiveField(6)
+  final double longitude;
+
+  Post(
+      {this.title,
+      this.category,
+      this.subcategory = const [],
+      this.id,
+      this.active = true,
+      this.latitude,
+      this.longitude});
 
   bool isCategory() {
     return category.contains(title.replaceAll(new RegExp(' '), '_').toLowerCase());

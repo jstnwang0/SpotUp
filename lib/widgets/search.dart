@@ -5,14 +5,22 @@ import 'package:flappy_search_bar/scaled_tile.dart';
 import 'package:flappy_search_bar/search_bar_style.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter/material.dart';
-import 'package:spot_up/services/database.dart';
+import 'package:spot_up/services/spot_database.dart';
 import 'package:spot_up/models/post.dart';
 
 class Search extends StatefulWidget {
-  final Function closePanel;
-  final Function openPanel;
+  final Function closeInfoPanel;
+  final Function openInfoPanel;
+  final Function setMarkers;
+  final Function clearMarkers;
+  final Function onSearchTap;
 
-  const Search(this.closePanel, this.openPanel);
+  const Search(
+      {this.closeInfoPanel,
+      this.openInfoPanel,
+      this.setMarkers,
+      this.clearMarkers,
+      this.onSearchTap});
 
   @override
   State<Search> createState() => SearchState();
@@ -21,29 +29,29 @@ class Search extends StatefulWidget {
 class SearchState extends State<Search> {
   final SearchBarController<Post> _searchBarController = SearchBarController();
   final List<Post> categories = [
-    Post('Picture', ['picture'], []),
-    Post('Scenic', ['scenic'], []),
-    Post('Eating', ['eating'], []),
-    Post('Study', ['study'], []),
-    Post('Restrooms', ['restrooms'], []),
-    Post('Secluded Areas', ['secluded_areas'], []),
-    Post('Sports', ['sports'], []),
-    Post('Workout', ['workout'], []),
+    Post(title: 'Picture', category: ['picture']),
+    Post(title: 'Scenic', category: ['scenic']),
+    Post(title: 'Eating', category: ['eating']),
+    Post(title: 'Study', category: ['study']),
+    Post(title: 'Restrooms', category: ['restrooms']),
+    Post(title: 'Secluded Areas', category: ['secluded_areas']),
+    Post(title: 'Sports', category: ['sports']),
+    Post(title: 'Workout', category: ['workout']),
   ];
 
   final List<Post> subcategories = [
-    Post('Run Loops', ['workout'], ['run_loops']),
-    Post('Tennis', ['sports'], ['tennis']),
-    Post('Football', ['sports'], ['football']),
-    Post('Basketball', ['sports'], ['basketball']),
-    Post('Soccer', ['sports'], ['soccer']),
-    Post('Track', ['sports'], ['track']),
-    Post('Spikeball', ['sports'], ['spikeball']),
-    Post('Weed', ['secluded_areas'], ['weed']),
-    Post('Drinking', ['secluded_areas'], ['drinking']),
+    Post(title: 'Run Loops', category: ['workout'], subcategory: ['run_loops']),
+    Post(title: 'Tennis', category: ['sports'], subcategory: ['tennis']),
+    Post(title: 'Football', category: ['sports'], subcategory: ['football']),
+    Post(title: 'Basketball', category: ['sports'], subcategory: ['basketball']),
+    Post(title: 'Soccer', category: ['sports'], subcategory: ['soccer']),
+    Post(title: 'Track', category: ['sports'], subcategory: ['track']),
+    Post(title: 'Spikeball', category: ['sports'], subcategory: ['spikeball']),
+    Post(title: 'Weed', category: ['secluded_areas'], subcategory: ['weed']),
+    Post(title: 'Drinking', category: ['secluded_areas'], subcategory: ['drinking']),
   ];
 
-  final List<Post> spots = DatabaseService().getSpots().where((spot) => spot.active).toList();
+  final List<Post> spots = SpotDatabase().getSpots().where((spot) => spot.active).toList();
 
   List<Post> _defaultList = new List();
   List<Post> _fulllist = new List();
@@ -68,8 +76,11 @@ class SearchState extends State<Search> {
   @override
   Widget build(BuildContext context) {
     Widget onItemFound(Post post, int index) {
-      Color color =
-          post.isCategory() ? Colors.lightBlue : post.isSubcategory() ? Colors.yellow : Colors.red;
+      Color color = post.isCategory()
+          ? Colors.lightBlue
+          : post.isSubcategory()
+              ? Colors.yellow
+              : Colors.red;
       color = color.withOpacity(1);
       return Container(
         height: 100,
@@ -91,7 +102,7 @@ class SearchState extends State<Search> {
           )),
           onTap: () {
             if (post.isSpot()) {
-              widget.openPanel();
+              widget.openInfoPanel();
             } else {
               _searchBarController.injectSearch(
                   'is:' + post.title.toLowerCase().replaceAll(new RegExp(' '), '_'), _searchPosts);
@@ -110,34 +121,37 @@ class SearchState extends State<Search> {
     }
 
     return new SearchBar<Post>(
-      searchBarPadding: EdgeInsets.symmetric(horizontal: 20),
-      listPadding: EdgeInsets.symmetric(horizontal: 10),
-      searchBarStyle: SearchBarStyle(
-        backgroundColor: Colors.white.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(20.0),
-        padding: EdgeInsets.all(6.0),
-      ),
-      icon: Padding(
-        padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-        child: Icon(Icons.search, color: Colors.white.withOpacity(0.25)),
-      ),
-      indexedScaledTileBuilder: (int index) => ScaledTile.count(3, 1),
-      hintText: 'Search any category or spot',
-      hintStyle: TextStyle(
-        color: Colors.white.withOpacity(0.25),
-        fontFamily: 'Manrope',
-        fontWeight: FontWeight.bold,
-      ),
-      onSearch: _searchPosts,
-      minimumChars: 1,
-      searchBarController: _searchBarController,
-      cancellationWidget: Text("Cancel"),
-      onCancelled: () {},
-      crossAxisCount: 3,
-      onItemFound: onItemFound,
-      suggestions: _defaultList,
-      tileBuilder: tileBuilder,
-    );
+        searchBarPadding: EdgeInsets.symmetric(horizontal: 20),
+        listPadding: EdgeInsets.symmetric(horizontal: 10),
+        searchBarStyle: SearchBarStyle(
+          backgroundColor: Colors.white.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(20.0),
+          padding: EdgeInsets.all(6.0),
+        ),
+        icon: Padding(
+          padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+          child: Icon(Icons.search, color: Colors.white.withOpacity(0.25)),
+        ),
+        indexedScaledTileBuilder: (int index) => ScaledTile.count(3, 1),
+        hintText: 'Search any category or spot',
+        hintStyle: TextStyle(
+          color: Colors.white.withOpacity(0.25),
+          fontFamily: 'Manrope',
+          fontWeight: FontWeight.bold,
+        ),
+        onSearch: _searchPosts,
+        debounceDuration: Duration(milliseconds: 100),
+        minimumChars: 1,
+        searchBarController: _searchBarController,
+        cancellationWidget: Text("Cancel"),
+        onCancelled: () {
+          widget.clearMarkers();
+        },
+        crossAxisCount: 3,
+        onItemFound: onItemFound,
+        suggestions: _defaultList,
+        tileBuilder: tileBuilder,
+        onTap: widget.onSearchTap);
   }
 
   Future<List<Post>> _searchPosts(String text) async {
@@ -182,6 +196,7 @@ class SearchState extends State<Search> {
       }
     }
 
+    widget.setMarkers(searched);
     return searched;
   }
 }

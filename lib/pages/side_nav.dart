@@ -1,6 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:spot_up/models/user.dart';
+import 'package:spot_up/services/auth.dart';
 
-class SideNav extends StatelessWidget {
+class SideNav extends StatefulWidget {
+  final Function updateUser;
+  final LocalUser user;
+
+  SideNav({this.updateUser, this.user});
+  @override
+  _SideNavState createState() => _SideNavState();
+}
+
+class _SideNavState extends State<SideNav> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -23,7 +34,7 @@ class SideNav extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'Jerry Hamada',
+                    widget.user.username,
                     style: TextStyle(fontSize: 22, color: Colors.white),
                   ),
                 ],
@@ -43,7 +54,10 @@ class SideNav extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.arrow_back),
             title: Text('Log Out'),
-            onTap: null,
+            onTap: () async {
+              await AuthService().signOut();
+              widget.updateUser(null);
+            },
           ),
         ],
       ),
