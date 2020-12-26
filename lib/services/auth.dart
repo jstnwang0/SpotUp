@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:spot_up/models/user.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -39,6 +40,23 @@ class AuthService {
           await _auth.createUserWithEmailAndPassword(email: email, password: password);
       User user = result.user;
       return user;
+    } catch (error) {
+      return getMessageFromErrorCode(error);
+    }
+  }
+
+  Future signInWithGoogle() async {
+    try {
+      GoogleSignIn _googleSignIn = GoogleSignIn();
+      GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+      GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+      final UserCredential authResult = await _auth.signInWithCredential(credential);
+      return authResult.user;
     } catch (error) {
       return getMessageFromErrorCode(error);
     }

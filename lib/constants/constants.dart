@@ -13,6 +13,20 @@ const textInputDecoration = InputDecoration(
   ),
 );
 
+AppBar appBar = AppBar(
+  title: Text(
+    'Spot Up',
+    style: TextStyle(
+      color: Colors.white,
+      fontFamily: 'Manrope',
+      fontWeight: FontWeight.bold,
+    ),
+  ),
+  centerTitle: true,
+  elevation: 0,
+  backgroundColor: Colors.deepPurple,
+);
+
 class Loading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

@@ -4,16 +4,16 @@ import 'package:spot_up/pages/authentication/login.dart';
 import 'package:spot_up/pages/authentication/register.dart';
 
 class Authenticate extends StatefulWidget {
-  final Function updateUser;
+  final Function signIn;
+  final Function signUp;
 
-  Authenticate(this.updateUser);
+  Authenticate({this.signIn, this.signUp});
   @override
   _AuthenticateState createState() => _AuthenticateState();
 }
 
 class _AuthenticateState extends State<Authenticate> {
   bool showSignIn = true;
-  bool showCustomRegister = false;
   void toggleView() {
     setState(() => showSignIn = !showSignIn);
   }
@@ -21,9 +21,9 @@ class _AuthenticateState extends State<Authenticate> {
   @override
   Widget build(BuildContext context) {
     if (showSignIn) {
-      return Login(toggleView: toggleView, updateUser: widget.updateUser);
+      return Login(toggleView: toggleView, signIn: widget.signIn);
     } else {
-      return Register(toggleView: toggleView, updateUser: widget.updateUser);
+      return Register(toggleView: toggleView, signUp: widget.signUp);
     }
   }
 }

@@ -7,9 +7,9 @@ import 'package:spot_up/services/user_database.dart';
 
 class Login extends StatefulWidget {
   final Function toggleView;
-  final Function updateUser;
+  final Function signIn;
 
-  Login({this.toggleView, this.updateUser});
+  Login({this.toggleView, this.signIn});
 
   @override
   _LoginState createState() => _LoginState();
@@ -27,19 +27,7 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text(
-          MyApp.title,
-          style: TextStyle(
-            color: Colors.white,
-            fontFamily: 'Manrope',
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-        elevation: 0,
-        backgroundColor: MyApp.brandcolor,
-      ),
+      appBar: appBar,
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
         child: Form(
@@ -86,15 +74,31 @@ class _LoginState extends State<Login> {
                               error = result;
                             });
                           } else {
-                            //Check if they've made a custom user model yet
-                            LocalUser user =
-                                await UserDatabase(uid: AuthService().user.uid).getCustomUser();
-
-                            widget.updateUser(user);
+                            await widget.signIn();
                           }
                         }
                       },
                     ),
+              RaisedButton(
+                color: Colors.deepPurple,
+                child: Text(
+                  'Sign In With Google',
+                  style: TextStyle(color: Colors.white),
+                ),
+                onPressed: () async {
+                  dynamic result = await _auth.signInWithGoogle();
+
+                  if (result is String) {
+                    //Error occured
+                    setState(() {
+                      loading = false;
+                      error = result;
+                    });
+                  } else {
+                    await widget.signIn();
+                  }
+                },
+              ),
               RaisedButton(
                   color: Colors.deepPurple,
                   child: Text(

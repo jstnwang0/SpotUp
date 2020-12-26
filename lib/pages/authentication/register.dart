@@ -7,9 +7,9 @@ import 'package:spot_up/services/user_database.dart';
 
 class Register extends StatefulWidget {
   final Function toggleView;
-  final Function updateUser;
+  final Function signUp;
 
-  Register({this.toggleView, this.updateUser});
+  Register({this.toggleView, this.signUp});
 
   @override
   _RegisterState createState() => _RegisterState();
@@ -27,19 +27,7 @@ class _RegisterState extends State<Register> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text(
-          MyApp.title,
-          style: TextStyle(
-            color: Colors.white,
-            fontFamily: 'Manrope',
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-        elevation: 0,
-        backgroundColor: MyApp.brandcolor,
-      ),
+      appBar: appBar,
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
         child: Form(
@@ -87,10 +75,7 @@ class _RegisterState extends State<Register> {
                             });
                           } else {
                             //Check if they've made a custom user model yet
-                            LocalUser user =
-                                await UserDatabase(uid: AuthService().user.uid).getCustomUser();
-
-                            widget.updateUser(user);
+                            widget.signUp();
                           }
                         }
                       },

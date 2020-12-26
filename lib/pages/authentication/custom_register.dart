@@ -9,9 +9,9 @@ import 'package:spot_up/services/auth.dart';
 import 'package:spot_up/services/user_database.dart';
 
 class CustomRegister extends StatefulWidget {
-  final Function updateUser;
+  final Function login;
 
-  CustomRegister(this.updateUser);
+  CustomRegister(this.login);
 
   @override
   _CustomRegisterState createState() => _CustomRegisterState();
@@ -32,19 +32,7 @@ class _CustomRegisterState extends State<CustomRegister> {
         UserDatabase(uid: AuthService().user == null ? null : AuthService().user.uid);
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text(
-          MyApp.title,
-          style: TextStyle(
-            color: Colors.white,
-            fontFamily: 'Manrope',
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-        elevation: 0,
-        backgroundColor: MyApp.brandcolor,
-      ),
+      appBar: appBar,
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
         child: Form(
@@ -54,7 +42,15 @@ class _CustomRegisterState extends State<CustomRegister> {
               SizedBox(height: 20.0),
               TextFormField(
                 decoration: textInputDecoration.copyWith(hintText: 'Username'),
-                validator: (val) => val.isEmpty ? 'Enter a username' : null,
+                validator: (val) {
+                  if (val.isEmpty) {
+                    return 'Enter a username';
+                  } else if (val.length < 4) {
+                    return 'Enter a username with 4+ characters';
+                  } else {
+                    return null;
+                  }
+                },
                 onChanged: (val) {
                   username = val;
                 },
@@ -73,11 +69,15 @@ class _CustomRegisterState extends State<CustomRegister> {
                           setState(() {
                             loading = true;
                           });
-                          await userDatabase.createCustomUser(username: username);
-                          widget.updateUser(await (userDatabase.getCustomUser()));
-                          setState(() {
-                            loading = false;
-                          });
+                          if (await userDatabase.usernameExists(username)) {
+                            setState(() {
+                              loading = false;
+                              error = 'Username is taken';
+                            });
+                          } else {
+                            await userDatabase.createCustomUser(username: username);
+                            await widget.login();
+                          }
                         }
                       },
                     ),

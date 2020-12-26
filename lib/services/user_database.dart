@@ -25,7 +25,21 @@ class UserDatabase {
   }
 
   Future<void> createCustomUser({String username}) async {
-    return await users.doc(uid).set({'username': username});
+    return await users
+        .doc(uid)
+        .set({'username': username, 'username_insensitive': username.toLowerCase()});
+  }
+
+  Future<bool> usernameExists(String username) async {
+    QuerySnapshot results =
+        await users.where('username_insensitive', isEqualTo: username.toLowerCase()).get();
+    List<DocumentSnapshot> usernames = results.docs;
+
+    if (usernames.length == 0) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   LocalUser _userFromFirebaseDoc(DocumentSnapshot user) {

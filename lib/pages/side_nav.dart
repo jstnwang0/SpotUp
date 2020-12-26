@@ -3,10 +3,10 @@ import 'package:spot_up/models/user.dart';
 import 'package:spot_up/services/auth.dart';
 
 class SideNav extends StatefulWidget {
-  final Function updateUser;
+  final Function signOut;
   final LocalUser user;
 
-  SideNav({this.updateUser, this.user});
+  SideNav({this.signOut, this.user});
   @override
   _SideNavState createState() => _SideNavState();
 }
@@ -56,7 +56,7 @@ class _SideNavState extends State<SideNav> {
             title: Text('Log Out'),
             onTap: () async {
               await AuthService().signOut();
-              widget.updateUser(null);
+              widget.signOut();
             },
           ),
         ],

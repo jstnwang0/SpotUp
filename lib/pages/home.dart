@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:spot_up/constants/constants.dart';
 import 'package:spot_up/models/user.dart';
 import 'package:spot_up/widgets/mapbox.dart';
 import 'package:spot_up/widgets/search.dart';
@@ -12,10 +13,10 @@ import '../main.dart';
 import 'dart:ui';
 
 class HomePage extends StatefulWidget {
-  final Function updateUser;
+  final Function signOut;
   final LocalUser user;
 
-  HomePage({this.updateUser, this.user});
+  HomePage({this.signOut, this.user});
   @override
   _HomePageState createState() {
     return _HomePageState();
@@ -32,20 +33,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          MyApp.title,
-          style: TextStyle(
-            color: Colors.white,
-            fontFamily: 'Manrope',
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-        elevation: 0,
-        backgroundColor: MyApp.brandcolor,
-      ),
-      drawer: SideNav(updateUser: widget.updateUser, user: widget.user),
+      appBar: appBar,
+      drawer: SideNav(signOut: widget.signOut, user: widget.user),
       resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
