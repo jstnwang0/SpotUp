@@ -382,6 +382,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  geodesy:
+    dependency: "direct main"
+    description:
+      name: geodesy
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.2"
   glob:
     dependency: transitive
     description:
@@ -744,6 +751,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
+  smart_select:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "5ca289cb39763af1e13c285e82b53307f2c90874"
+      url: "https://github.com/davigmacode/flutter_smart_select.git"
+    source: git
+    version: "4.3.2"
   source_gen:
     dependency: transitive
     description:
@@ -867,9 +883,9 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: HEAD
+      ref: master
       resolved-ref: "7a27aaa2b0428e9933f7699d2b95824bea0da188"
-      url: "https://github.com/igaurab/user_location_plugin.git"
+      url: "https://github.com/jstnwang0/user_location_plugin.git"
     source: git
     version: "0.1.3"
   uuid:

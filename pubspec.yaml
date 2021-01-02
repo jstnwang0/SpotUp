@@ -27,9 +27,11 @@ dependencies:
   flutter_map: ^0.10.1+1
   user_location:
     git:
-      url: https://github.com/igaurab/user_location_plugin.git
+      url: https://github.com/jstnwang0/user_location_plugin.git
+      ref: master
   flutter_map_marker_cluster: ^0.3.1
   latlong: ^0.6.1
+  geodesy: ^0.3.2
   location: ^3.0.2
   
   firebase_core: ^0.5.3
@@ -46,6 +48,10 @@ dependencies:
      git:
        url: https://github.com/jstnwang0/flappy_search_bar.git
        ref: master
+  smart_select:
+    git:
+      url: https://github.com/davigmacode/flutter_smart_select.git
+
 
   flutter_spinkit: ^4.1.2+1
   # The following adds the Cupertino Icons font to your application.

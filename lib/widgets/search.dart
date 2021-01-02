@@ -7,6 +7,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter/material.dart';
 import 'package:spot_up/services/spot_database.dart';
 import 'package:spot_up/models/post.dart';
+import 'package:spot_up/constants/constants.dart';
 
 class Search extends StatefulWidget {
   final Function closeInfoPanel;
@@ -28,30 +29,8 @@ class Search extends StatefulWidget {
 
 class SearchState extends State<Search> {
   final SearchBarController<Post> _searchBarController = SearchBarController();
-  final List<Post> categories = [
-    Post(title: 'Picture', category: ['picture']),
-    Post(title: 'Scenic', category: ['scenic']),
-    Post(title: 'Eating', category: ['eating']),
-    Post(title: 'Study', category: ['study']),
-    Post(title: 'Restrooms', category: ['restrooms']),
-    Post(title: 'Secluded Areas', category: ['secluded_areas']),
-    Post(title: 'Sports', category: ['sports']),
-    Post(title: 'Workout', category: ['workout']),
-  ];
 
-  final List<Post> subcategories = [
-    Post(title: 'Run Loops', category: ['workout'], subcategory: ['run_loops']),
-    Post(title: 'Tennis', category: ['sports'], subcategory: ['tennis']),
-    Post(title: 'Football', category: ['sports'], subcategory: ['football']),
-    Post(title: 'Basketball', category: ['sports'], subcategory: ['basketball']),
-    Post(title: 'Soccer', category: ['sports'], subcategory: ['soccer']),
-    Post(title: 'Track', category: ['sports'], subcategory: ['track']),
-    Post(title: 'Spikeball', category: ['sports'], subcategory: ['spikeball']),
-    Post(title: 'Weed', category: ['secluded_areas'], subcategory: ['weed']),
-    Post(title: 'Drinking', category: ['secluded_areas'], subcategory: ['drinking']),
-  ];
-
-  final List<Post> spots = SpotDatabase().getSpots().where((spot) => spot.active).toList();
+  List<Post> spots = SpotDatabase().getActiveSpots();
 
   List<Post> _defaultList = new List();
   List<Post> _fulllist = new List();
@@ -78,7 +57,7 @@ class SearchState extends State<Search> {
     Widget onItemFound(Post post, int index) {
       Color color = post.isCategory()
           ? Colors.lightBlue
-          : post.isSubcategory()
+          : post.isSubcategory
               ? Colors.yellow
               : Colors.red;
       color = color.withOpacity(1);
@@ -105,7 +84,8 @@ class SearchState extends State<Search> {
               widget.openInfoPanel();
             } else {
               _searchBarController.injectSearch(
-                  'is:' + post.title.toLowerCase().replaceAll(new RegExp(' '), '_'), _searchPosts);
+                  'is:' + (post.isSubcategory ? post.subcategory[0] : post.category[0]),
+                  _searchPosts);
             }
           },
         ),

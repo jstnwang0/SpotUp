@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:spot_up/constants/constants.dart';
 import '../models/post.dart';
 
 class SpotDatabase {
@@ -45,18 +46,37 @@ class SpotDatabase {
   }
 
   Post _postFromFirebaseDoc(DocumentSnapshot spot) {
+    List<String> subcategories = spot.get('subcategory').cast<String>();
+    List<String> categories = [];
+
+    for (String subcategory in subcategories) {
+      String category = subCategoriesMap[subcategory].category[0];
+      if (!categories.contains(category)) {
+        categories.add(category);
+      }
+    }
+
     return Post(
         title: spot.get('title'),
-        category: spot.get('category').cast<String>(),
-        subcategory: spot.get('subcategory').cast<String>(),
+        category: categories,
+        subcategory: subcategories,
         id: spot.id,
         active: spot.get('active'),
         latitude: spot.get('location').latitude,
         longitude: spot.get('location').longitude);
   }
 
-  List<Post> getSpots() {
+  List<Post> getActiveSpots() {
     var box = Hive.box('box');
-    return box.get('spotsList').cast<Post>();
+    List<Post> spots = box.get('spotsList').cast<Post>();
+    spots = spots.where((spot) => spot.active).toList();
+    return spots;
+  }
+
+  List<Post> getInactiveSpots() {
+    var box = Hive.box('box');
+    List<Post> spots = box.get('spotsList').cast<Post>();
+    spots = spots.where((spot) => !spot.active).toList();
+    return spots;
   }
 }

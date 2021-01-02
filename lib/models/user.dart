@@ -1,7 +1,7 @@
 class LocalUser {
   final String uid;
   final String username;
-  final String photoUrl;
+  final String photoURL;
 
-  LocalUser({this.uid, this.username, this.photoUrl});
+  LocalUser({this.uid, this.username, this.photoURL});
 }

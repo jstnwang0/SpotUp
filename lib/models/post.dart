@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
+import 'package:latlong/latlong.dart';
 
 part 'post.g.dart';
 
@@ -27,6 +28,8 @@ class Post {
   @HiveField(6)
   final double longitude;
 
+  final bool isSubcategory;
+
   Post(
       {this.title,
       this.category,
@@ -34,17 +37,18 @@ class Post {
       this.id,
       this.active = true,
       this.latitude,
-      this.longitude});
+      this.longitude,
+      this.isSubcategory = false});
 
   bool isCategory() {
     return category.contains(title.replaceAll(new RegExp(' '), '_').toLowerCase());
   }
 
-  bool isSubcategory() {
-    return subcategory.contains(title.replaceAll(new RegExp(' '), '_').toLowerCase());
+  bool isSpot() {
+    return !isCategory() && !isSubcategory;
   }
 
-  bool isSpot() {
-    return !isCategory() && !isSubcategory();
+  LatLng getLatLng() {
+    return LatLng(latitude, longitude);
   }
 }

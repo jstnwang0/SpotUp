@@ -18,19 +18,18 @@ class _SideNavState extends State<SideNav> {
       child: Column(
         children: [
           Container(
-            width: double.infinity,
             padding: EdgeInsets.all(20),
             color: Colors.deepPurple,
             child: Center(
               child: Column(
                 children: [
                   Container(
-                    width: 100,
-                    height: 100,
-                    margin: EdgeInsets.only(top: 30),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.black,
+                    width: 50,
+                    height: 50,
+                    margin: EdgeInsets.only(top: 30, bottom: 10),
+                    child: CircleAvatar(
+                      backgroundImage: NetworkImage(widget.user.photoURL),
+                      radius: 50,
                     ),
                   ),
                   Text(

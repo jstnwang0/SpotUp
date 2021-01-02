@@ -5,7 +5,8 @@ import 'package:spot_up/pages/home.dart';
 
 class UserDatabase {
   final String uid;
-  UserDatabase({this.uid});
+  final String photoURL;
+  UserDatabase({this.uid, this.photoURL});
 
   final CollectionReference users = FirebaseFirestore.instance.collection('users');
 
@@ -47,6 +48,7 @@ class UserDatabase {
         ? LocalUser(
             uid: user.id,
             username: user.get('username'),
+            photoURL: photoURL,
           )
         : null;
   }

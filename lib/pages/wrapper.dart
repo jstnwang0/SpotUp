@@ -21,10 +21,9 @@ class _WrapperState extends State<Wrapper> {
 
   Future<bool> updateLocalUser() async {
     if (!skipUpdate) {
-      print('Getting username');
-      localUser =
-          await UserDatabase(uid: AuthService().user == null ? null : AuthService().user.uid)
-              .getCustomUser();
+      String uid = AuthService().user == null ? null : AuthService().user.uid;
+      String photoURL = AuthService().user == null ? null : AuthService().user.photoURL;
+      localUser = await UserDatabase(uid: uid, photoURL: photoURL).getCustomUser();
     }
     return true;
   }

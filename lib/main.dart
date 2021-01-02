@@ -9,8 +9,13 @@ import 'package:spot_up/services/spot_database.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
+import 'package:flutter/services.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
@@ -32,7 +37,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) => MaterialApp(
         debugShowCheckedModeBanner: false,
         title: title,
-        theme: ThemeData(primaryColor: Colors.white),
+        theme: ThemeData(
+            primaryColor: Colors.white,
+            buttonTheme: ButtonThemeData(
+              buttonColor: Colors.deepPurple,
+              textTheme: ButtonTextTheme.primary,
+            )),
         home: Wrapper(),
       );
 }
